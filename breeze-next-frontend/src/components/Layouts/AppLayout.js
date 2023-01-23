@@ -3,10 +3,13 @@ import { useAuth } from '@/hooks/auth'
 
 const AppLayout = ({ header, children }) => {
     const { user } = useAuth({ middleware: 'auth' })
-
+    const styles = {
+        display: "flex",
+        flexDirection: "row"
+      };
     return (
         <div className="min-h-screen bg-gray-100">
-            <Navigation user={user} />
+    
 
             {/* Page Heading */}
             <header className="bg-white shadow">
@@ -14,9 +17,12 @@ const AppLayout = ({ header, children }) => {
                     {header}
                 </div>
             </header>
-
+         
             {/* Page Content */}
-            <main>{children}</main>
+            <main style={styles}>
+                <Navigation user={user} />
+                <section style={{width: '100%'}}>{children}</section>
+            </main>
         </div>
     )
 }
