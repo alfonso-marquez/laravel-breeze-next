@@ -5,6 +5,8 @@ import Head from 'next/head';
 import { MantineProvider, ColorScheme, ColorSchemeProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 
+import AppLayout from '../components/Layouts/AppLayout'
+
 export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps } = props;
   const [colorScheme, setColorScheme] = useState<ColorScheme>(props.colorScheme);
@@ -13,6 +15,19 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
     const nextColorScheme = value || (colorScheme === 'dark' ? 'light' : 'dark');
     setColorScheme(nextColorScheme);
     setCookie('mantine-color-scheme', nextColorScheme, { maxAge: 60 * 60 * 24 * 30 });
+  };
+  
+  const getContent = () => {
+    // array of all the paths that doesn't need layout
+    if ([`/login`].includes(props.router.pathname))
+      return <Component {...pageProps} />;
+     if ([`/`].includes(props.router.pathname))
+      return <Component {...pageProps} />;
+    return (
+      <AppLayout>
+        <Component {...pageProps} />
+      </AppLayout>
+    );
   };
 
   return (
@@ -26,7 +41,7 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
         <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
           <NotificationsProvider>
-            <Component {...pageProps} />
+            {getContent()}
           </NotificationsProvider>
         </MantineProvider>
       </ColorSchemeProvider>

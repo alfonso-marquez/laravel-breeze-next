@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import axios from '@/lib/axios'
+import axios from '../lib/axios';
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
@@ -35,7 +35,6 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     }
 
     const login = async ({ setErrors, setStatus, ...props }) => {
-        console.log(props)
         await csrf()
 
         setErrors([])

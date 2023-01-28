@@ -1,5 +1,6 @@
 import { Center } from '@mantine/core';
 import { NavbarSearch } from '../NavbarSearch/NavbarSearch';
+import Head from 'next/head'
 // import { useAuth } from '@/hooks/auth'
 
 const AppLayout = ({ children } : {children:any}) => {
@@ -11,16 +12,6 @@ const AppLayout = ({ children } : {children:any}) => {
       };
     return (
         <div>
-    
-
-            {/* Page Heading */}
-            {/* <header className="bg-white shadow">
-                <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {header}
-                </div>
-            </header> */}
-         
-            {/* Page Content */}
             <main style={styles}>
                 <NavbarSearch />
                 <section style={{width: '100%', margin: "16px", backgroundColor:"white",padding: "24px" }}>{children}</section>

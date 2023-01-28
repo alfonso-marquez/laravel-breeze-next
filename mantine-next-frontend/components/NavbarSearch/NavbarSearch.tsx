@@ -18,6 +18,7 @@ import {
   IconPlus,
   IconSelector,
 } from '@tabler/icons';
+import Link from 'next/link';
 import { UserButton } from '../UserButton/UserButton';
 
 const useStyles = createStyles((theme) => ({
@@ -122,15 +123,15 @@ const links = [
 ];
 
 const collections = [
-  { emoji: '👍', label: 'Sales' },
-  { emoji: '🚚', label: 'Deliveries' },
-  { emoji: '💸', label: 'Discounts' },
-  { emoji: '💰', label: 'Profits' },
-  { emoji: '✨', label: 'Reports' },
-  { emoji: '🛒', label: 'Orders' },
-  { emoji: '📅', label: 'Events' },
-  { emoji: '🙈', label: 'Debts' },
-  { emoji: '💁‍♀️', label: 'Customers' },
+  { emoji: '👍', label: 'Employees', href:'/employees' },
+  { emoji: '🚚', label: 'Timesheet', href:'/timesheet' },
+  { emoji: '💸', label: 'Leave Management', href:'/leave-management' },
+  { emoji: '💰', label: 'Payroll', href: '/payroll' },
+//   { emoji: '✨', label: 'Reports' },
+//   { emoji: '🛒', label: 'Orders' },
+//   { emoji: '📅', label: 'Events' },
+//   { emoji: '🙈', label: 'Debts' },
+//   { emoji: '💁‍♀️', label: 'Customers' },
 ];
 
 
@@ -152,14 +153,17 @@ export function NavbarSearch() {
   ));
 
   const collectionLinks = collections.map((collection) => (
-    <a
-      href="/"
-      onClick={(event) => event.preventDefault()}
-      key={collection.label}
-      className={classes.collectionLink}
+    <Link
+      href={collection.href}
     >
-      <span style={{ marginRight: 9, fontSize: 24 }}>{collection.emoji}</span> {collection.label}
-    </a>
+      <a    
+      // onClick={(event) => event.preventDefault()}
+      key={collection.label}
+      className={classes.collectionLink} 
+      >
+        <span style={{ marginRight: 9, fontSize: 24 }}>{collection.emoji}</span> {collection.label}
+      </a>
+    </Link>
   ));
 
   return (

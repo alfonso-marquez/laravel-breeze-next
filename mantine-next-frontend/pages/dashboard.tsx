@@ -1,8 +1,6 @@
-import AppLayout from '../components/Layouts/AppLayout'
-import Head from 'next/head'
 import { TableSelection } from '../components'
 
-const mockData: Array<any> = [
+const  mockData: Array<any> = [
             {
               "id": "1",
               "avatar": "https://images.unsplash.com/photo-1624298357597-fd92dfbec01d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=250&q=80",
@@ -42,15 +40,9 @@ const mockData: Array<any> = [
 
 const Dashboard = () => {
     return (
-        <AppLayout>
-
-            <Head>
-                <title>Laravel - Dashboard</title>
-            </Head>
-
-            <TableSelection data={mockData}/>
-        </AppLayout>
+        <TableSelection data={mockData}/>
     )
 }
 
 export default Dashboard
+export {mockData}

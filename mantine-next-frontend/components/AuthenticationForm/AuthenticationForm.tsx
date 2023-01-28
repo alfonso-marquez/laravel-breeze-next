@@ -14,15 +14,31 @@ import {
   Stack,
 } from '@mantine/core';
 import { GoogleButton, TwitterButton } from '../SocialButtons/SocialButtons';
+import { useState } from 'react';
+import { useAuth } from '../../hooks/auth';
+import { useRouter } from 'next/router';
 
 export function AuthenticationForm(props: PaperProps) {
+  const router = useRouter()
+
+  const { login } = useAuth({
+      middleware: 'guest',
+      redirectIfAuthenticated: '/dashboard',
+  })
+  
   const [type, toggle] = useToggle(['login', 'register']);
+
+  const [errors, setErrors] = useState([])
+  const [status, setStatus] = useState(null)
+
   const form = useForm({
     initialValues: {
       email: '',
       name: '',
       password: '',
       terms: true,
+      status: null,
+      shouldRemember: false
     },
 
     validate: {
@@ -44,7 +60,17 @@ export function AuthenticationForm(props: PaperProps) {
 
       <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
-      <form onSubmit={form.onSubmit(() => {})}>
+      <form onSubmit={form.onSubmit(() =>
+      // console.log(form.values)
+       login({
+            email: form.values.email,
+            password: form.values.password,
+            remember: form.values.shouldRemember,
+            setErrors,
+            setStatus,
+        })
+        )
+        }>
         <Stack>
           {type === 'register' && (
             <TextInput
