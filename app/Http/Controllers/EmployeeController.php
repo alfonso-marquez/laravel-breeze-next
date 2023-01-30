@@ -14,13 +14,21 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $employees = Employee::all();
+
+        $employees = Employee::latest();
+
+        if($request->get('status') == 'archived') {
+            $employees = $employees->onlyTrashed();
+        }
+
+        $employees = $employees->paginate(10);
         // dd($employees);
         return response()->json([
             'employees' => $employees
         ]);
+        
     }
 
     public function create()
@@ -71,8 +79,9 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreEmployeeRequest $request, Employee $employee)
+    public function update(StoreEmployeeRequest $request, $id)
     {
+        $employee =  Employee::find($id);
         $employee->update($request->all());
 
         return response()->json([
@@ -87,12 +96,31 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employee $employee)
+    public function delete(Employee $employee)
     {
         $employee->delete();
 
         return response()->json([
             'message' => "Employee Deleted successfully!",
+        ], 200);
+    }
+
+    public function restore($id)
+    {
+        Employee::where('id', $id)->withTrashed()->restore();
+
+        return response()->json([
+            'message' => "Employee Restored successfully!",
+        ], 200);
+    }
+
+    public function restoreAll() 
+    {
+        Employee::onlyTrashed()->restore();
+
+        // return redirect()->route('employee.index')->withSuccess(__('All Employees restored successfully.'));
+        return response()->json([
+            'message' => "All employees restored successfully!",
         ], 200);
     }
 }
